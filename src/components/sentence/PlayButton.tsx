@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Play, Pause } from "lucide-react";
+import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -11,10 +11,12 @@ export function PlayButton({
   audioUrl,
   text,
   sentenceId,
+  variant = "default",
 }: {
   audioUrl?: string | null;
   text: string;
   sentenceId: number;
+  variant?: "default" | "compact";
 }) {
   const [state, setState] = React.useState<PlayState>("idle");
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
@@ -76,6 +78,34 @@ export function PlayButton({
     }
   };
 
+  if (variant === "compact") {
+    return (
+      <button
+        type="button"
+        onClick={play}
+        className={cn(
+          "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full",
+          "bg-terracotta text-cream shadow-soft transition-all duration-150",
+          "hover:bg-[#a0512f] hover:shadow-soft-lg active:scale-95",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+        )}
+        aria-label={state === "playing" ? "음성 멈추기" : "발음 듣기"}
+      >
+        {state === "loading" ? (
+          <span className="flex items-center gap-[3px]">
+            <Dot delay={0} />
+            <Dot delay={120} />
+            <Dot delay={240} />
+          </span>
+        ) : state === "playing" ? (
+          <Equalizer />
+        ) : (
+          <Play className="h-5 w-5 fill-current" />
+        )}
+      </button>
+    );
+  }
+
   return (
     <Button
       onClick={play}
@@ -109,7 +139,7 @@ export function PlayButton({
 function Dot({ delay }: { delay: number }) {
   return (
     <span
-      className="inline-block h-2 w-2 rounded-full bg-current opacity-60"
+      className="inline-block h-1.5 w-1.5 rounded-full bg-current opacity-70"
       style={{
         animation: `equalizer-1 800ms ease-in-out ${delay}ms infinite`,
       }}
@@ -119,7 +149,7 @@ function Dot({ delay }: { delay: number }) {
 
 function Equalizer() {
   return (
-    <span className="inline-flex items-end gap-[3px] h-5">
+    <span className="inline-flex items-end gap-[3px] h-4">
       <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-1" />
       <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-2" />
       <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-3" />

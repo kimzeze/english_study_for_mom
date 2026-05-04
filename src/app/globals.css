@@ -6,12 +6,12 @@
 
 @layer base {
   :root {
-    --color-cream: 250 247 240;
-    --color-cream-soft: 244 239 227;
-    --color-ink: 26 24 20;
-    --color-ink-muted: 122 116 104;
-    --color-terracotta: 184 92 56;
-    --color-sage: 92 122 90;
+    --color-cream: 250 246 236;
+    --color-cream-soft: 241 235 218;
+    --color-ink: 22 20 16;
+    --color-ink-muted: 90 84 72;
+    --color-terracotta: 176 81 42;
+    --color-sage: 79 110 77;
   }
 
   html {
@@ -55,8 +55,8 @@
 
   /* 선택 색상 */
   ::selection {
-    background: rgb(232 201 184);
-    color: rgb(26 24 20);
+    background: rgb(229 196 176);
+    color: rgb(22 20 16);
   }
 }
 

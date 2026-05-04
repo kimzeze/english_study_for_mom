@@ -5,16 +5,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#FAF7F0",
-        "cream-soft": "#F4EFE3",
-        ink: "#1A1814",
-        "ink-muted": "#7A7468",
+        cream: "#FAF6EC",
+        "cream-soft": "#F1EBDA",
+        ink: "#161410",
+        "ink-muted": "#5A5448",
         terracotta: {
-          DEFAULT: "#B85C38",
-          soft: "#E8C9B8",
+          DEFAULT: "#B0512A",
+          soft: "#E5C4B0",
         },
-        sage: "#5C7A5A",
-        divider: "#E5DFD3",
+        sage: "#4F6E4D",
+        divider: "#D4CCB6",
       },
       fontFamily: {
         sans: [

@@ -54,7 +54,7 @@ export function StudyInfoToggle({
             open && "rotate-180"
           )}
         />
-        <span>{open ? "접기" : "더 알아보기"}</span>
+        <span>{open ? "접기" : "자세히 보기"}</span>
       </button>
 
       {open && (
