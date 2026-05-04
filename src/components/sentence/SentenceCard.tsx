@@ -1,6 +1,7 @@
 import type { Sentence } from "@/lib/db/schema";
 import { PlayButton } from "./PlayButton";
 import { StudyInfoToggle } from "./StudyInfoPanel";
+import { DeleteSentenceButton } from "./DeleteSentenceButton";
 
 export function SentenceCard({
   sentence,
@@ -44,6 +45,13 @@ export function SentenceCard({
         text={sentence.text}
         initialInfo={sentence.studyInfo ?? null}
       />
+
+      <div className="flex justify-end">
+        <DeleteSentenceButton
+          sentenceId={sentence.id}
+          preview={sentence.text}
+        />
+      </div>
     </article>
   );
 }

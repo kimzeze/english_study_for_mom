@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, Copy, ExternalLink, Plus, X } from "lucide-react";
+import { ArrowLeft, Check, Copy, ExternalLink, Plus, RefreshCw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { BigDate } from "@/components/date/BigDate";
@@ -408,6 +408,16 @@ function ShareLinkResult({ date }: { date: string }) {
             <ExternalLink className="h-5 w-5" />
             <span>학습 페이지 열어보기</span>
           </Link>
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="lg"
+          block
+          onClick={() => window.location.reload()}
+        >
+          <RefreshCw className="h-5 w-5" />
+          <span>문장 더 올리기</span>
         </Button>
       </div>
     </div>

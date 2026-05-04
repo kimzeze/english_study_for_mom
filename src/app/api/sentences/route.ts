@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { eq, max } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { dayPosts, sentences } from "@/lib/db/schema";
 import { isValidDateKey } from "@/lib/utils";
@@ -31,16 +31,20 @@ export async function POST(req: Request) {
     .values({ date })
     .onConflictDoNothing();
 
-  // 기존 sentences가 있으면 모두 삭제 후 재삽입 (단순화)
-  await db.delete(sentences).where(eq(sentences.date, date));
+  // 기존 문장에 이어붙이기 — 가장 큰 order_index를 찾아 그 다음부터 부여
+  const [{ maxOrder }] = await db
+    .select({ maxOrder: max(sentences.orderIndex) })
+    .from(sentences)
+    .where(eq(sentences.date, date));
 
-  // 새 sentences 삽입
+  const startIndex = (maxOrder ?? 0) + 1;
+
   const inserted = await db
     .insert(sentences)
     .values(
       texts.map((text, i) => ({
         date,
-        orderIndex: i + 1,
+        orderIndex: startIndex + i,
         text,
       }))
     )

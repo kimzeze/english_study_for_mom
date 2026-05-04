@@ -40,8 +40,9 @@ const config: Config = {
       },
       keyframes: {
         "fade-up": {
-          from: { opacity: "0", transform: "translateY(8px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
+          // 모달 중앙 정렬(transform: translate(-50%,-50%))과 충돌하지 않도록 opacity만 사용
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
         "fade-in": {
           from: { opacity: "0" },

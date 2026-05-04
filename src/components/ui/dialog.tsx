@@ -35,10 +35,11 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-1/2 top-1/2 z-50 w-[calc(100vw-32px)] max-w-md -translate-x-1/2 -translate-y-1/2",
+        // inset-0 + m-auto + h-fit/w-fit 으로 중앙 정렬 — transform 애니메이션과 충돌 없음
+        "fixed inset-0 z-50 m-auto h-fit w-[calc(100vw-32px)] max-w-md",
         "rounded-2xl bg-cream p-6 shadow-soft-lg",
+        "max-h-[calc(100dvh-32px)] overflow-y-auto",
         "data-[state=open]:animate-fade-up",
-        "max-h-[calc(100vh-32px)] overflow-y-auto",
         className
       )}
       {...props}

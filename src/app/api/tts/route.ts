@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     voice: "nova",
     input: text,
     response_format: "mp3",
-    speed: 0.95, // 살짝 천천히 (학습용)
+    speed: 0.8, // 학습용으로 또박또박 천천히
   });
 
   const audioBuffer = Buffer.from(await speech.arrayBuffer());
