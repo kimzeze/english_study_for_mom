@@ -4,18 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-cream active:scale-[0.99]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl font-semibold transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper active:scale-[0.99]",
   {
     variants: {
       variant: {
         primary:
-          "bg-terracotta text-cream shadow-soft hover:bg-[#a0512f] hover:shadow-soft-lg",
+          "bg-accent text-paper shadow-soft hover:bg-[#1a4f9f] hover:shadow-soft-lg",
         secondary:
-          "bg-ink text-cream shadow-soft hover:bg-[#33302a]",
+          "bg-ink text-paper shadow-soft hover:bg-[#1c2a44]",
         outline:
-          "bg-cream-soft text-ink border-2 border-divider hover:border-ink-muted",
-        ghost: "bg-transparent text-ink hover:bg-cream-soft",
-        sage: "bg-sage text-cream shadow-soft hover:bg-[#4d6849]",
+          "bg-paper-soft text-ink border-2 border-divider hover:border-ink-muted",
+        ghost: "bg-transparent text-ink hover:bg-paper-soft",
+        success: "bg-success text-paper shadow-soft hover:bg-[#0e8a55]",
+        danger: "bg-[#c4302b] text-paper shadow-soft hover:bg-[#a52823]",
       },
       size: {
         xl: "h-16 px-8 text-[22px]",

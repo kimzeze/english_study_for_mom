@@ -5,16 +5,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#FAF6EC",
-        "cream-soft": "#F1EBDA",
-        ink: "#161410",
-        "ink-muted": "#5A5448",
-        terracotta: {
-          DEFAULT: "#B0512A",
-          soft: "#E5C4B0",
+        paper: "#F4F7FB",
+        "paper-soft": "#E8EEF7",
+        ink: "#0F1B2E",
+        "ink-muted": "#4B5563",
+        accent: {
+          DEFAULT: "#1E5FBC",
+          soft: "#BFD3EE",
         },
-        sage: "#4F6E4D",
-        divider: "#D4CCB6",
+        success: "#16A36C",
+        divider: "#CFD7E2",
       },
       fontFamily: {
         sans: [
@@ -35,8 +35,8 @@ const config: Config = {
         "2xl": "20px",
       },
       boxShadow: {
-        soft: "0 2px 8px rgba(26, 24, 20, 0.04)",
-        "soft-lg": "0 4px 16px rgba(26, 24, 20, 0.06)",
+        soft: "0 2px 8px rgba(15, 27, 46, 0.05)",
+        "soft-lg": "0 6px 20px rgba(15, 27, 46, 0.08)",
       },
       keyframes: {
         "fade-up": {

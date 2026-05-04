@@ -23,7 +23,7 @@ export async function RecentDayList() {
 
   if (dbError) {
     return (
-      <div className="rounded-2xl bg-cream-soft p-6 text-center">
+      <div className="rounded-2xl bg-paper-soft p-6 text-center">
         <p className="text-[20px] text-ink-muted">
           데이터베이스가 아직 연결되지 않았어요
         </p>
@@ -33,7 +33,7 @@ export async function RecentDayList() {
 
   if (days.length === 0) {
     return (
-      <div className="rounded-2xl bg-cream-soft p-6 text-center">
+      <div className="rounded-2xl bg-paper-soft p-6 text-center">
         <p className="text-[20px] text-ink-muted">
           아직 올린 문장이 없어요
         </p>
@@ -60,7 +60,7 @@ export async function RecentDayList() {
       {daySentences.map(({ date, items }) => (
         <li
           key={date}
-          className="rounded-2xl border border-divider bg-cream-soft shadow-soft"
+          className="rounded-2xl border border-divider bg-paper-soft shadow-soft"
         >
           <header className="flex items-baseline justify-between gap-3 border-b border-divider px-5 py-4">
             <div className="flex items-baseline gap-2">
@@ -68,7 +68,7 @@ export async function RecentDayList() {
                 {formatDateShort(date)}
               </span>
               {date === today && (
-                <span className="text-[16px] font-medium text-terracotta">
+                <span className="text-[16px] font-medium text-accent">
                   오늘
                 </span>
               )}
@@ -78,7 +78,7 @@ export async function RecentDayList() {
             </div>
             <Link
               href={`/${date}`}
-              className="inline-flex items-center gap-1 text-[18px] font-medium text-ink hover:text-terracotta transition-colors"
+              className="inline-flex items-center gap-1 text-[18px] font-medium text-ink hover:text-accent transition-colors"
             >
               <span>자세히 보기</span>
               <ArrowRight className="h-4 w-4" />

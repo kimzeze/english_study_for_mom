@@ -6,12 +6,12 @@
 
 @layer base {
   :root {
-    --color-cream: 250 246 236;
-    --color-cream-soft: 241 235 218;
-    --color-ink: 22 20 16;
-    --color-ink-muted: 90 84 72;
-    --color-terracotta: 176 81 42;
-    --color-sage: 79 110 77;
+    --color-paper: 244 247 251;
+    --color-paper-soft: 232 238 247;
+    --color-ink: 15 27 46;
+    --color-ink-muted: 75 85 99;
+    --color-accent: 30 95 188;
+    --color-success: 22 163 108;
   }
 
   html {
@@ -22,7 +22,7 @@
   }
 
   body {
-    @apply bg-cream text-ink font-sans;
+    @apply bg-paper text-ink font-sans;
     font-size: 22px;
     line-height: 1.6;
     font-weight: 400;
@@ -43,7 +43,7 @@
 
   /* 포커스 링 - 명확하게 */
   *:focus-visible {
-    @apply outline-none ring-2 ring-terracotta ring-offset-2 ring-offset-cream;
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-paper;
   }
 
   /* iOS Safari에서 input 확대 방지 */
@@ -55,8 +55,8 @@
 
   /* 선택 색상 */
   ::selection {
-    background: rgb(229 196 176);
-    color: rgb(22 20 16);
+    background: rgb(191 211 238);
+    color: rgb(15 27 46);
   }
 }
 

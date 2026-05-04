@@ -42,7 +42,7 @@ export function DeleteSentenceButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-[16px] font-medium text-ink-muted hover:bg-cream-soft hover:text-ink transition-colors"
+        className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-[16px] font-medium text-ink-muted hover:bg-paper-soft hover:text-ink transition-colors"
         aria-label="이 문장 삭제하기"
       >
         <Trash2 className="h-4 w-4" />
@@ -59,7 +59,7 @@ export function DeleteSentenceButton({
               </DialogDescription>
             </div>
 
-            <div className="rounded-2xl bg-cream-soft p-4">
+            <div className="rounded-2xl bg-paper-soft p-4">
               <p className="text-[20px] text-ink line-clamp-3">
                 &ldquo;{preview}&rdquo;
               </p>
@@ -76,12 +76,11 @@ export function DeleteSentenceButton({
                 취소
               </Button>
               <Button
-                variant="primary"
+                variant="danger"
                 size="lg"
                 onClick={handleConfirm}
                 disabled={deleting}
                 block
-                className="bg-[#a83838] hover:bg-[#8e2e2e]"
               >
                 {deleting ? "삭제 중..." : "네, 삭제할게요"}
               </Button>

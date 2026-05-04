@@ -85,9 +85,9 @@ export function PlayButton({
         onClick={play}
         className={cn(
           "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full",
-          "bg-terracotta text-cream shadow-soft transition-all duration-150",
-          "hover:bg-[#a0512f] hover:shadow-soft-lg active:scale-95",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+          "bg-accent text-paper shadow-soft transition-all duration-150",
+          "hover:bg-[#1a4f9f] hover:shadow-soft-lg active:scale-95",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
         )}
         aria-label={state === "playing" ? "음성 멈추기" : "발음 듣기"}
       >

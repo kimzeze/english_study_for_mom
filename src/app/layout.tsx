@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "엄마 영어",
+  title: "영어 공부하기",
   description: "오늘의 영어, 또박또박. 원어민 발음으로 듣는 영어 학습.",
   openGraph: {
-    title: "엄마 영어",
+    title: "영어 공부하기",
     description: "오늘의 영어, 또박또박.",
     type: "website",
   },

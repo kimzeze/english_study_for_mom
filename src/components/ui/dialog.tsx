@@ -37,7 +37,7 @@ const DialogContent = React.forwardRef<
       className={cn(
         // inset-0 + m-auto + h-fit/w-fit 으로 중앙 정렬 — transform 애니메이션과 충돌 없음
         "fixed inset-0 z-50 m-auto h-fit w-[calc(100vw-32px)] max-w-md",
-        "rounded-2xl bg-cream p-6 shadow-soft-lg",
+        "rounded-2xl bg-paper p-6 shadow-soft-lg",
         "max-h-[calc(100dvh-32px)] overflow-y-auto",
         "data-[state=open]:animate-fade-up",
         className
@@ -46,7 +46,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close
-        className="absolute right-4 top-4 rounded-full p-2 text-ink-muted hover:bg-cream-soft transition-colors"
+        className="absolute right-4 top-4 rounded-full p-2 text-ink-muted hover:bg-paper-soft transition-colors"
         aria-label="닫기"
       >
         <X className="h-5 w-5" />

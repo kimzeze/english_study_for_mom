@@ -221,7 +221,7 @@ export function SentenceForm() {
                   <button
                     type="button"
                     onClick={() => removeSentence(i)}
-                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[16px] font-medium text-ink-muted hover:bg-cream-soft hover:text-ink transition-colors"
+                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[16px] font-medium text-ink-muted hover:bg-paper-soft hover:text-ink transition-colors"
                     aria-label={`${ORDINALS[i] ?? `${i + 1}번째`} 문장 삭제`}
                   >
                     <X className="h-4 w-4" />
@@ -251,13 +251,13 @@ export function SentenceForm() {
               onClick={addSentence}
             >
               <Plus className="h-5 w-5" />
-              <span>문장 추가하기</span>
+              <span>문장 개수 추가하기</span>
             </Button>
           )}
         </div>
 
         {error && (
-          <p className="text-[20px] text-terracotta" role="alert">
+          <p className="text-[20px] text-accent" role="alert">
             {error}
           </p>
         )}
@@ -319,7 +319,7 @@ function SpellReviewDialog({
               <div className="text-[18px] font-medium text-ink-muted">
                 제안
               </div>
-              <div className="text-[26px] font-semibold text-terracotta leading-snug">
+              <div className="text-[26px] font-semibold text-accent leading-snug">
                 {review.corrected}
               </div>
             </div>
@@ -369,8 +369,8 @@ function ShareLinkResult({ date }: { date: string }) {
   return (
     <div className="space-y-10 pt-12">
       <div className="space-y-3">
-        <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-sage/10">
-          <Check className="h-8 w-8 text-sage" strokeWidth={2.5} />
+        <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
+          <Check className="h-8 w-8 text-success" strokeWidth={2.5} />
         </div>
         <h1 className="text-[40px] font-bold text-ink leading-tight">
           저장 완료!
@@ -380,7 +380,7 @@ function ShareLinkResult({ date }: { date: string }) {
         </p>
       </div>
 
-      <div className="rounded-2xl bg-cream-soft p-5 shadow-soft">
+      <div className="rounded-2xl bg-paper-soft p-5 shadow-soft">
         <p className="break-all text-[20px] text-ink font-mono">{url}</p>
       </div>
 
@@ -389,7 +389,7 @@ function ShareLinkResult({ date }: { date: string }) {
           onClick={copy}
           block
           size="xl"
-          variant={copied ? "sage" : "primary"}
+          variant={copied ? "success" : "primary"}
         >
           {copied ? (
             <>
@@ -399,24 +399,23 @@ function ShareLinkResult({ date }: { date: string }) {
           ) : (
             <>
               <Copy className="h-6 w-6" />
-              <span>링크 복사</span>
+              <span>링크 복사하기</span>
             </>
           )}
         </Button>
-        <Button asChild block size="lg" variant="outline">
+        <Button asChild block size="xl" variant="outline">
           <Link href={`/${date}`}>
-            <ExternalLink className="h-5 w-5" />
-            <span>학습 페이지 열어보기</span>
+            <ExternalLink className="h-6 w-6" />
+            <span>문장 목록으로 가기</span>
           </Link>
         </Button>
-
         <Button
-          variant="ghost"
-          size="lg"
+          variant="outline"
+          size="xl"
           block
           onClick={() => window.location.reload()}
         >
-          <RefreshCw className="h-5 w-5" />
+          <RefreshCw className="h-6 w-6" />
           <span>문장 더 올리기</span>
         </Button>
       </div>

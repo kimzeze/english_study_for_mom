@@ -29,33 +29,47 @@ export default async function DatePage({
   if (items.length === 0) notFound();
 
   return (
-    <PageShell>
-      <div className="space-y-12">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-[20px] font-medium text-ink-muted hover:text-ink transition-colors"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          <span>처음으로</span>
-        </Link>
+    <>
+      {/* 음성 사전 로드 — 페이지 열자마자 브라우저가 mp3를 받아둠. 재생 버튼 누르면 즉시 재생 */}
+      {items
+        .filter((s): s is typeof s & { audioUrl: string } => !!s.audioUrl)
+        .map((s) => (
+          <link
+            key={`preload-${s.id}`}
+            rel="preload"
+            as="audio"
+            href={s.audioUrl}
+          />
+        ))}
 
-        <header className="space-y-6">
-          <BigDate date={date} />
-          <h2 className="text-[32px] font-bold text-ink leading-tight">
-            오늘의 영어 문장
-          </h2>
-        </header>
-
+      <PageShell>
         <div className="space-y-12">
-          {items.map((s, i) => (
-            <SentenceCard key={s.id} sentence={s} index={i} />
-          ))}
-        </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-[20px] font-medium text-ink-muted hover:text-ink transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            <span>처음으로</span>
+          </Link>
 
-        <div className="pt-4">
-          <CopyLinkButton date={date} />
+          <header className="space-y-6">
+            <BigDate date={date} />
+            <h2 className="text-[32px] font-bold text-ink leading-tight">
+              오늘의 영어 문장
+            </h2>
+          </header>
+
+          <div className="space-y-12">
+            {items.map((s, i) => (
+              <SentenceCard key={s.id} sentence={s} index={i} />
+            ))}
+          </div>
+
+          <div className="pt-4">
+            <CopyLinkButton date={date} />
+          </div>
         </div>
-      </div>
-    </PageShell>
+      </PageShell>
+    </>
   );
 }

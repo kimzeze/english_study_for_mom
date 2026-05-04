@@ -58,7 +58,7 @@ export function TranslationToggle({
       </button>
 
       {open && (
-        <div className="animate-fade-up rounded-xl bg-cream-soft px-4 py-3">
+        <div className="animate-fade-up rounded-xl bg-paper-soft px-4 py-3">
           {loading && !info ? (
             <div className="h-5 w-3/4 rounded-md bg-divider/60 animate-pulse" />
           ) : info ? (

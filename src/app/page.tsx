@@ -12,7 +12,7 @@ export default function HomePage() {
       <div className="space-y-12">
         <header className="space-y-3 pt-8">
           <h1 className="text-[56px] font-bold leading-tight text-ink tracking-tight">
-            엄마 영어
+            영어 공부하기
           </h1>
           <p className="text-[22px] text-ink-muted">
             오늘의 영어, 또박또박

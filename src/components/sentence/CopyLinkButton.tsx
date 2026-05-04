@@ -22,7 +22,7 @@ export function CopyLinkButton({ date }: { date: string }) {
       onClick={copy}
       block
       size="xl"
-      variant={copied ? "sage" : "primary"}
+      variant={copied ? "success" : "primary"}
     >
       {copied ? (
         <>
