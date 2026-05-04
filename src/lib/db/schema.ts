@@ -16,14 +16,23 @@ export const dayPosts = pgTable("day_posts", {
 
 export type WordNote = {
   word: string;
+  pronunciation: string; // 한글 발음 표기 (예: "스쿨")
   meaning: string;
-  pronunciation?: string;
+  example?: string; // 짧은 예문 (선택)
+};
+
+export type SimilarSentence = {
+  english: string;
+  korean: string;
 };
 
 export type StudyInfo = {
   translation: string;
+  pronunciation?: string; // 전체 문장의 한글 발음 (새 포맷)
   wordNotes: WordNote[];
-  similarSentences: string[];
+  grammarTip?: string; // 한 줄 문법/어법 포인트 (새 포맷)
+  // 구버전과의 호환을 위해 string[] | SimilarSentence[] 모두 허용
+  similarSentences: SimilarSentence[] | string[];
   usageContext: string;
 };
 

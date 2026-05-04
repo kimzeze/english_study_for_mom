@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Play } from "lucide-react";
+import { Play, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -21,60 +21,92 @@ export function PlayButton({
   const [state, setState] = React.useState<PlayState>("idle");
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const cachedUrlRef = React.useRef<string | null>(audioUrl ?? null);
+  const abortRef = React.useRef<AbortController | null>(null);
+  const sessionRef = React.useRef(0);
 
+  // 단일 Audio 엘리먼트 유지 — 재생할 때마다 새로 만들지 않음
   React.useEffect(() => {
+    const audio = new Audio();
+    audio.preload = "auto";
+    audioRef.current = audio;
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      audio.pause();
+      audio.src = "";
+      audioRef.current = null;
     };
   }, []);
 
-  const stop = React.useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+  const stopImmediately = React.useCallback(() => {
+    sessionRef.current += 1; // 진행 중인 비동기 흐름 무효화
+    abortRef.current?.abort();
+    abortRef.current = null;
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
     }
     setState("idle");
   }, []);
 
-  const play = async () => {
-    if (state === "playing") {
-      stop();
+  const handleClick = async () => {
+    // 재생 중 클릭 → 멈춤 (토글)
+    if (state === "playing" || state === "loading") {
+      stopImmediately();
       return;
     }
 
-    let url = cachedUrlRef.current;
+    const audio = audioRef.current;
+    if (!audio) return;
 
+    const mySession = ++sessionRef.current;
+
+    // URL 확보 (이미 캐시되어 있으면 즉시)
+    let url = cachedUrlRef.current;
     if (!url) {
       setState("loading");
+      const controller = new AbortController();
+      abortRef.current = controller;
       try {
         const res = await fetch("/api/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sentenceId, text }),
+          signal: controller.signal,
         });
+        if (mySession !== sessionRef.current) return;
         if (!res.ok) throw new Error("TTS failed");
         const data = await res.json();
         url = data.audioUrl as string;
         cachedUrlRef.current = url;
       } catch (e) {
+        if ((e as { name?: string }).name === "AbortError") return;
+        if (mySession !== sessionRef.current) return;
         console.error(e);
         setState("idle");
         return;
       }
     }
 
-    const audio = new Audio(url);
-    audioRef.current = audio;
-    audio.onended = () => setState("idle");
-    audio.onerror = () => setState("idle");
+    if (mySession !== sessionRef.current || !url) return;
+
+    // 이전 재생을 정리하고 새 src로 교체
+    audio.pause();
+    audio.currentTime = 0;
+    audio.src = url;
+
+    audio.onended = () => {
+      if (mySession === sessionRef.current) setState("idle");
+    };
+    audio.onerror = () => {
+      if (mySession === sessionRef.current) setState("idle");
+    };
+
     setState("playing");
     try {
       await audio.play();
-    } catch {
-      setState("idle");
+    } catch (e) {
+      if ((e as { name?: string }).name === "AbortError") return;
+      if (mySession === sessionRef.current) setState("idle");
     }
   };
 
@@ -82,7 +114,7 @@ export function PlayButton({
     return (
       <button
         type="button"
-        onClick={play}
+        onClick={handleClick}
         className={cn(
           "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full",
           "bg-accent text-paper shadow-soft transition-all duration-150",
@@ -98,7 +130,7 @@ export function PlayButton({
             <Dot delay={240} />
           </span>
         ) : state === "playing" ? (
-          <Equalizer />
+          <Square className="h-4 w-4 fill-current" />
         ) : (
           <Play className="h-5 w-5 fill-current" />
         )}
@@ -108,7 +140,7 @@ export function PlayButton({
 
   return (
     <Button
-      onClick={play}
+      onClick={handleClick}
       block
       variant="primary"
       size="xl"
@@ -123,8 +155,8 @@ export function PlayButton({
         </span>
       ) : state === "playing" ? (
         <>
-          <Equalizer />
-          <span>듣는 중</span>
+          <Square className="h-5 w-5 fill-current" />
+          <span>멈추기</span>
         </>
       ) : (
         <>
@@ -144,16 +176,6 @@ function Dot({ delay }: { delay: number }) {
         animation: `equalizer-1 800ms ease-in-out ${delay}ms infinite`,
       }}
     />
-  );
-}
-
-function Equalizer() {
-  return (
-    <span className="inline-flex items-end gap-[3px] h-4">
-      <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-1" />
-      <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-2" />
-      <span className="block w-[3px] h-full bg-current origin-bottom animate-equalizer-3" />
-    </span>
   );
 }
 
