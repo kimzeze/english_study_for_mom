@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { NavigationProgress } from "@/components/layout/NavigationProgress";
 
 export const metadata: Metadata = {
   title: "영어 공부하기",
@@ -25,7 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <NavigationProgress />
+        {children}
+      </body>
     </html>
   );
 }

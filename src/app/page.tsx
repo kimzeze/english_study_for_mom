@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/PageShell";
 import { RecentDayList } from "@/components/home/RecentDayList";
 
-export const dynamic = "force-dynamic";
+// 홈은 mutation(POST /api/sentences) 시 revalidatePath('/')로 명시적 무효화.
+// 추가 안전망: "오늘" 배지가 자정 넘어 너무 오래 stale되지 않도록 10분 시간 기반 재검증.
+export const revalidate = 600;
 
 export default function HomePage() {
   return (

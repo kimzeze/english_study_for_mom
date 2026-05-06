@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { after } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { eq, max } from "drizzle-orm";
 import { db } from "@/lib/db";
@@ -68,6 +69,10 @@ export async function POST(req: Request) {
     ]);
     await Promise.allSettled(tasks);
   });
+
+  // 새 문장이 추가되었으므로 홈(최근 학습)과 해당 날짜 페이지를 무효화
+  revalidatePath("/");
+  revalidatePath(`/${date}`);
 
   return NextResponse.json({
     date,

@@ -10,7 +10,8 @@ import { SentenceCard } from "@/components/sentence/SentenceCard";
 import { CopyLinkButton } from "@/components/sentence/CopyLinkButton";
 import { isValidDateKey } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+// 날짜별 페이지는 mutation(POST/DELETE)에서 revalidatePath('/[date]')로 무효화한다.
+// 기본 'auto' 모드로 두면 Full Route Cache가 활성화되어 같은 URL 재방문 시 빠르게 응답.
 
 export default async function DatePage({
   params,
