@@ -1,12 +1,13 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { dayPosts, sentences as sentencesTable } from "@/lib/db/schema";
 import { desc, eq, asc } from "drizzle-orm";
 import type { Sentence } from "@/lib/db/schema";
-import { formatDateShort, todayKey } from "@/lib/utils";
+import { formatDateShort } from "@/lib/utils";
+import { ProgressLink } from "@/components/layout/ProgressLink";
 import { PlayButton } from "@/components/sentence/PlayButton";
 import { TranslationToggle } from "@/components/sentence/TranslationToggle";
+import { TodayBadge } from "@/components/home/TodayBadge";
 
 export async function RecentDayList() {
   let days: { date: string }[] = [];
@@ -53,8 +54,6 @@ export async function RecentDayList() {
     })
   );
 
-  const today = todayKey();
-
   return (
     <ul className="space-y-5">
       {daySentences.map(({ date, items }) => (
@@ -67,22 +66,18 @@ export async function RecentDayList() {
               <span className="text-[22px] font-semibold text-ink">
                 {formatDateShort(date)}
               </span>
-              {date === today && (
-                <span className="text-[16px] font-medium text-accent">
-                  오늘
-                </span>
-              )}
+              <TodayBadge date={date} />
               <span className="text-[16px] text-ink-muted">
                 · {items.length}문장
               </span>
             </div>
-            <Link
+            <ProgressLink
               href={`/${date}`}
               className="inline-flex items-center gap-1 text-[18px] font-medium text-ink hover:text-accent transition-colors"
             >
               <span>자세히 보기</span>
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </ProgressLink>
           </header>
 
           {items.length === 0 ? (

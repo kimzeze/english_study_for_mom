@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/PageShell";
+import { ProgressLink } from "@/components/layout/ProgressLink";
 
 export default function NotFound() {
   return (
@@ -13,7 +13,7 @@ export default function NotFound() {
           이 날짜에 올라온 문장이 아직 없어요
         </p>
         <Button asChild block size="xl" variant="primary">
-          <Link href="/">처음으로 돌아가기</Link>
+          <ProgressLink href="/">처음으로 돌아가기</ProgressLink>
         </Button>
       </div>
     </PageShell>

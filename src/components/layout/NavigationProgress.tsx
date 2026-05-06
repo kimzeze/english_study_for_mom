@@ -1,96 +1,51 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import * as React from "react";
+import { useNavigationProgress } from "./NavigationProgressContext";
 
 export function NavigationProgress() {
-  const pathname = usePathname();
-  const [progress, setProgress] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const trickleRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const safetyRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastPathRef = useRef(pathname);
+  const { pendingCount } = useNavigationProgress();
+  const isNavigating = pendingCount > 0;
 
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (e.button !== 0) return;
-      if (e.defaultPrevented) return;
+  const [progress, setProgress] = React.useState(0);
+  const [visible, setVisible] = React.useState(false);
+  const trickleRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
+  const fadeRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wasNavigatingRef = React.useRef(false);
 
-      const link = (e.target as HTMLElement | null)?.closest?.("a");
-      if (!link) return;
-      if (link.target && link.target !== "_self") return;
-      if (link.hasAttribute("download")) return;
-
-      const href = link.getAttribute("href");
-      if (!href || href.startsWith("#")) return;
-      if (href.startsWith("mailto:") || href.startsWith("tel:")) return;
-
-      let url: URL;
-      try {
-        url = new URL(href, window.location.href);
-      } catch {
-        return;
+  React.useEffect(() => {
+    if (isNavigating) {
+      // 시작
+      if (trickleRef.current) clearInterval(trickleRef.current);
+      if (fadeRef.current) clearTimeout(fadeRef.current);
+      setVisible(true);
+      setProgress((p) => (p > 0 && p < 90 ? p : 12));
+      trickleRef.current = setInterval(() => {
+        setProgress((p) => (p >= 90 ? p : p + (90 - p) * 0.1));
+      }, 200);
+      wasNavigatingRef.current = true;
+    } else if (wasNavigatingRef.current) {
+      // 완료 (이전에 navigating이었다가 false로 바뀐 시점에만 finish)
+      if (trickleRef.current) {
+        clearInterval(trickleRef.current);
+        trickleRef.current = null;
       }
-      if (url.origin !== window.location.origin) return;
-      if (
-        url.pathname === window.location.pathname &&
-        url.search === window.location.search
-      ) {
-        return;
-      }
+      setProgress(100);
+      if (fadeRef.current) clearTimeout(fadeRef.current);
+      fadeRef.current = setTimeout(() => {
+        setVisible(false);
+        fadeRef.current = setTimeout(() => setProgress(0), 220);
+      }, 180);
+      wasNavigatingRef.current = false;
+    }
+  }, [isNavigating]);
 
-      start();
-    };
-    // capture phase로 잡아야 함: Next.js Link 컴포넌트가 자체 onClick에서
-    // e.preventDefault()를 호출하기 때문에 bubble phase에 도달하면 늘 defaultPrevented=true.
-    document.addEventListener("click", handleClick, true);
-    return () => document.removeEventListener("click", handleClick, true);
-  }, []);
-
-  useEffect(() => {
-    if (lastPathRef.current === pathname) return;
-    lastPathRef.current = pathname;
-    finish();
-  }, [pathname]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       if (trickleRef.current) clearInterval(trickleRef.current);
       if (fadeRef.current) clearTimeout(fadeRef.current);
-      if (safetyRef.current) clearTimeout(safetyRef.current);
     };
   }, []);
-
-  function start() {
-    if (trickleRef.current) clearInterval(trickleRef.current);
-    if (fadeRef.current) clearTimeout(fadeRef.current);
-    if (safetyRef.current) clearTimeout(safetyRef.current);
-    setVisible(true);
-    setProgress(12);
-    trickleRef.current = setInterval(() => {
-      setProgress((p) => (p >= 85 ? p : p + (85 - p) * 0.1));
-    }, 200);
-    safetyRef.current = setTimeout(() => finish(), 8000);
-  }
-
-  function finish() {
-    if (trickleRef.current) {
-      clearInterval(trickleRef.current);
-      trickleRef.current = null;
-    }
-    if (safetyRef.current) {
-      clearTimeout(safetyRef.current);
-      safetyRef.current = null;
-    }
-    setProgress(100);
-    if (fadeRef.current) clearTimeout(fadeRef.current);
-    fadeRef.current = setTimeout(() => {
-      setVisible(false);
-      fadeRef.current = setTimeout(() => setProgress(0), 220);
-    }, 200);
-  }
 
   return (
     <div

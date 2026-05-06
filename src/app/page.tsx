@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/PageShell";
+import { ProgressLink } from "@/components/layout/ProgressLink";
 import { RecentDayList } from "@/components/home/RecentDayList";
 
 // 홈은 mutation(POST /api/sentences) 시 revalidatePath('/')로 명시적 무효화.
@@ -23,10 +23,10 @@ export default function HomePage() {
 
         <div>
           <Button asChild block size="xl" variant="primary">
-            <Link href="/new">
+            <ProgressLink href="/new">
               <Pencil className="h-6 w-6" />
               <span>오늘 문장 올리기</span>
-            </Link>
+            </ProgressLink>
           </Button>
         </div>
 
