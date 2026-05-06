@@ -43,9 +43,10 @@ export function NavigationProgress() {
 
       start();
     };
-    // bubble phase: 다른 onClick이 preventDefault했을 때 정확히 e.defaultPrevented가 잡힘
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    // capture phase로 잡아야 함: Next.js Link 컴포넌트가 자체 onClick에서
+    // e.preventDefault()를 호출하기 때문에 bubble phase에 도달하면 늘 defaultPrevented=true.
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
   }, []);
 
   useEffect(() => {
