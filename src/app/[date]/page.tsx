@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { eq, asc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { sentences } from "@/lib/db/schema";
 import { PageShell } from "@/components/layout/PageShell";
+import { ProgressLink } from "@/components/layout/ProgressLink";
 import { BigDate } from "@/components/date/BigDate";
 import { SentenceCard } from "@/components/sentence/SentenceCard";
 import { CopyLinkButton } from "@/components/sentence/CopyLinkButton";
@@ -45,13 +45,13 @@ export default async function DatePage({
 
       <PageShell>
         <div className="space-y-12">
-          <Link
+          <ProgressLink
             href="/"
             className="inline-flex items-center gap-2 text-[20px] font-medium text-ink-muted hover:text-ink transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span>처음으로</span>
-          </Link>
+          </ProgressLink>
 
           <header className="space-y-6">
             <BigDate date={date} />

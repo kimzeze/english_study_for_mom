@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { ArrowLeft, Check, Copy, ExternalLink, Plus, RefreshCw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { BigDate } from "@/components/date/BigDate";
+import { ProgressLink } from "@/components/layout/ProgressLink";
 import {
   Dialog,
   DialogContent,
@@ -193,13 +193,13 @@ export function SentenceForm() {
   return (
     <>
       <div className="space-y-10">
-        <Link
+        <ProgressLink
           href="/"
           className="inline-flex items-center gap-2 text-[20px] font-medium text-ink-muted hover:text-ink transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>돌아가기</span>
-        </Link>
+        </ProgressLink>
 
         <BigDate date={date} />
 
@@ -404,10 +404,10 @@ function ShareLinkResult({ date }: { date: string }) {
           )}
         </Button>
         <Button asChild block size="xl" variant="outline">
-          <Link href={`/${date}`}>
+          <ProgressLink href={`/${date}`}>
             <ExternalLink className="h-6 w-6" />
             <span>문장 목록으로 가기</span>
-          </Link>
+          </ProgressLink>
         </Button>
         <Button
           variant="outline"
