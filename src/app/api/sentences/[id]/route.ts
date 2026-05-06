@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { db } from "@/lib/db";
@@ -36,6 +37,10 @@ export async function DELETE(
   }
 
   await db.delete(sentences).where(eq(sentences.id, id));
+
+  // 삭제한 문장이 있던 날짜 페이지와 홈을 무효화
+  revalidatePath("/");
+  revalidatePath(`/${existing.date}`);
 
   return NextResponse.json({ ok: true });
 }
